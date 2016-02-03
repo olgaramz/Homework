@@ -1,0 +1,16 @@
+import os
+
+corpus = 'C:\\Users\\student\\Desktop\\corpus'
+
+lst = os.listdir(corpus)
+
+for i in lst:
+    lst1 = os.listdir(corpus + '\\' + i)
+    for n in lst1:
+        filepath = corpus + '\\' + i + '\\' + n
+        print(filepath)
+        newfile = 'C:\\Users\\student\\Desktop\\markup\\' + n
+        print(newfile)
+        command = 'C:\\mystem\\mystem.exe -cid ' + filepath + ' ' + newfile
+        print(command)
+        os.system(command)
