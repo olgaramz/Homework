@@ -8,9 +8,14 @@ for i in lst:
     lst1 = os.listdir(corpus + '\\' + i)
     for n in lst1:
         filepath = corpus + '\\' + i + '\\' + n
-        print(filepath)
-        newfile = 'C:\\Users\\student\\Desktop\\markup\\' + n
-        print(newfile)
+        newfile = 'C:\\Users\\student\\Desktop\\markup\\txt' + n
         command = 'C:\\mystem\\mystem.exe -cid ' + filepath + ' ' + newfile
-        print(command)
+        os.system(command)
+
+for i in lst:
+    lst1 = os.listdir(corpus + '\\' + i)
+    for n in lst1:
+        filepath = corpus + '\\' + i + '\\' + n
+        newfile = 'C:\\Users\\student\\Desktop\\markup\\xml' + n
+        command = 'C:\\mystem\\mystem.exe -cid --format xml ' + filepath + ' ' + newfile
         os.system(command)
