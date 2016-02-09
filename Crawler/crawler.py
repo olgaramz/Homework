@@ -26,17 +26,21 @@ for i in queue:
             html1 = page1.read().decode()
             tree1 = lxml.html.fromstring(html1)
             title1 = tree1.findtext('.//title')
-            #author1 = tree1.xpath('.//a[@rel="author"]/text()')[0]
+            author1 = tree1.xpath('.//a[@rel="author"]/text()')[0]
+            date1 = tree1.xpath('.//li/text()')[7] #index out of range
+            introtext1 = tree1.findtext('.//div[@class="itemIntroText"]/p')
+            text1 = tree1.xpath('.//div[@class="itemFullText"]/p/text()') 
             visited.append(i)
             queue.remove(i)
-            f = open(title1[1:5] + '.txt', 'w', encoding = 'utf-8') #filename
-            f.write(html1)
+            f = open(date + '.txt', 'w', encoding = 'utf-8') #what to use as filenames?
+            f.write(str(introtext) + '\n' + str(text)) #not tested
             f.close()
             linksOnPage = tree1.xpath('.//a/@href')
             for n in linksOnPage:
-                M = re.search('/index\.php/[^"]*', n)
-                if M != None:
-                    queue.append(baseurl + M.group(0))
+               if n not in visited:
+                    M = re.search('/index\.php/[^"]*', n)
+                    if M != None:
+                        queue.append(baseurl + M.group(0))
 
 #for one page
 
