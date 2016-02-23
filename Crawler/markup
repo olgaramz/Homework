@@ -1,6 +1,6 @@
 import os
 
-corpus = 'C:\\Users\\student\\Desktop\\corpus'
+corpus = 'C:\\Users\\User\\Documents\\Corpus\\plaintext'
 
 lst = os.listdir(corpus)
 
@@ -8,14 +8,9 @@ for i in lst:
     lst1 = os.listdir(corpus + '\\' + i)
     for n in lst1:
         filepath = corpus + '\\' + i + '\\' + n
-        newfile = 'C:\\Users\\student\\Desktop\\markup\\txt' + n
-        command = 'C:\\mystem\\mystem.exe -cid ' + filepath + ' ' + newfile
-        os.system(command)
-
-for i in lst:
-    lst1 = os.listdir(corpus + '\\' + i)
-    for n in lst1:
-        filepath = corpus + '\\' + i + '\\' + n
-        newfile = 'C:\\Users\\student\\Desktop\\markup\\xml' + n
-        command = 'C:\\mystem\\mystem.exe -cid --format xml ' + filepath + ' ' + newfile
-        os.system(command)
+        newfile1 = 'C:\\Users\\User\\Documents\\Corpus\\txt_markup' + n
+        newfile2 = 'C:\\Users\\User\\Documents\\Corpus\\xml_markup' + n
+        command1 = 'C:\\Users\\User\\Documents\\mystem.exe -cid ' + filepath + ' ' + newfile1
+        command2 = 'C:\\Users\\User\\Documents\\mystem.exe -cid --format xml ' + filepath + ' ' + newfile2
+        os.system(command1)
+        os.system(command2)
