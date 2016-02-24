@@ -6,7 +6,6 @@ import re
 baseurl = 'http://www.gazetayakutia.ru'
 queue = []
 visited = []
-visited.append(baseurl)
 
 with urllib.request.urlopen(baseurl) as response:
    html = response.read().decode()
