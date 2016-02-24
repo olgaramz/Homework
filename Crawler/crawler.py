@@ -32,18 +32,24 @@ for i in queue:
                         pageurl = i
                 except urllib.error.HTTPError:
                     continue       
-        pagetree = lxml.html.fromstring(pagehtml)
+        try:
+            pagetree = lxml.html.fromstring(pagehtml)
+        except ValueError:
+            continue
         title = pagetree.findtext('.//title')
+        title = title.replace(' - Республиканская общественно-политическая газета', '')
         try:            
             author = pagetree.xpath('.//a[@rel="author"]/text()')[0]
         except IndexError:
             author = 'Noname'
-        date1 = pagetree.xpath('.//li/text()')
-        for x in date1:
-            p = re.search('\.*([A-z]*, [0-9]{2} [A-z]* [0-9]{4} [0-9]{2}:[0-9]{2})', x)
-            if p != None:
-                dateCreated = p.group(1)
-                dateCreated = dateCreated.replace(':', '_')
+        date = pagetree.xpath('.//li/text()')
+        date = ''.join(date)            
+        z = re.search('[A-Z][a-z]+, [0-9]{2} [A-Z][a-z]+ [0-9]{4} [0-9]{2}:[0-9]{2}', date)
+        if z != None:
+            dateCreated = z.group(0)
+            dateCreated = dateCreated.replace(':', '_')
+        else:
+            dateCreated = 'unknown date'
         introtext = pagetree.findtext('.//div[@class="itemIntroText"]/p')
         text = pagetree.xpath('.//div[@class="itemFullText"]/p/text()')
         textstring = '\n'.join(text)
@@ -63,10 +69,17 @@ for i in queue:
             day = 'unknown day'
         path = 'C:\\Users\\User\\Documents\\Corpus\\plaintext\\' + year + '\\' + month
         filename = path + '\\' + dateCreated + str(counter) + '.txt'
+        metaInfo = filename + ',' + author + ',' + ' ' + ',' + ' ' + ',' + title + ',' + dateCreated + ',' + 'публицистика' + ',' + ' ' + ',' + ' ' + ',' + ' ' + ',' + ' ' + ',' + 'нейтральный' + ',' + 'н-возраст' + ',' + 'н-уровень' + ',' + 'республиканская' + ',' + pageurl + ',' + 'Якутия' + ',' + ' ' + ',' + year + ',' + 'газета' + ',' + 'Россия' + ',' + 'Республика Якутия' + ',' + 'ru' + '\n'
+        csv += metaInfo        
         if os.path.exists(path) is False:
             os.makedirs(path)
         f1 = open(filename, 'w', encoding = 'utf-8')
-        f1.write('@au ' + author + '\n' + '@ti ' + title + '\n' + '@da ' + dateCreated + '\n' + str(introtext) + '\n' + textstring)
-        f1.close()            
+        f1.write('@au ' + author + '\n' + '@ti ' + title + '\n' + '@da ' + dateCreated + '\n' + '@url ' + pageurl + '\n' + str(introtext) + '\n' + textstring)
+        f1.close()             
         visited.append(i)
         print(counter) #remove later
+        print(pageurl)
+
+f2 = open('C:\\Users\\User\\Documents\\Corpus\\meta.csv', 'w', encoding = 'utf-8')
+f2.write(csv)
+f2.close()
