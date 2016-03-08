@@ -1,0 +1,40 @@
+import re
+import os
+
+words = []
+wordsInLine = ''
+freqList = {}
+newList = ''
+
+lst = os.listdir('D:\\extractedWiki\\text\\AA')
+
+for i in lst:
+    with open('D:\\extractedWiki\\text\\AA\\' + i, 'r', encoding = 'utf-8') as f:
+        for line in f:
+            m = re.match('<doc id="[0-9]+" url="https://chr.wikipedia.org/.*" title=".*">', line)
+            if m == None:
+                wordsInLine = line.split()
+                words += wordsInLine
+
+for i in range(len(words)):
+    words[i] = words[i].lower()
+    words[i] = words[i].strip('\",»«.-:;!–?\\*)(')
+
+for word in words:
+    r = re.search('https?://.+', word)
+    if r == None:
+        if word != '\n' or '\r' or ' ':
+            if word in freqList:
+                freqList[word] += 1
+            else:
+                freqList[word] = 1
+        else:
+            pass
+    else:
+        pass
+    
+for k in freqList:
+    newList += str(k) + ' : ' + str(freqList[k]) + '\n'
+
+with open('frequencylist.txt', 'w', encoding = 'utf-8') as newFile:
+    newFile.write(newList)
