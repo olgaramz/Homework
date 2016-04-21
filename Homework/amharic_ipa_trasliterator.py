@@ -1,4 +1,4 @@
-f = open('амхарское письмо.txt', 'r', encoding = 'utf-8')
+f = open('amhar.txt', 'r', encoding = 'utf-8')
 
 lettersInLine = []
 vowels = []
