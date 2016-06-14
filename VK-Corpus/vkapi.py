@@ -22,7 +22,15 @@ def getFields(lst):
             bdate = i['bdate']
         except KeyError:
             bdate = '-'
-        t = str(ID) + ',' + str(sex) + ',' + bdate + '\n'
+        try:
+            pers = i['personal']
+            langs = pers['langs']
+            lang = ';'.join(langs)
+        except KeyError:
+            lang = '-'
+        except TypeError:
+            lang = '-'
+        t = str(ID) + '\t' + str(sex) + '\t' + bdate + '\t' + lang + '\n'
         infostring += t
     return infostring
 
@@ -40,10 +48,10 @@ def getTexts(lst):
 session = vk.Session()
 session = vk.AuthSession(app_id='******', user_login='mymail@example.com', user_password='*******')
 api = vk.API(session)
-users = api.users.search(city=59)
+users = api.users.search(city=59, count = 1000)
 
 fullIDList = getIDs(users)
-info = api.users.get(user_ids=fullIDList, fields='sex,bdate')
+info = api.users.get(user_ids=fullIDList, fields='sex,bdate,personal')
 s = getFields(info)
 fullcsv = csvheader + s
 with open('corpus\\meta.csv', 'w', encoding = 'utf-8') as f:
