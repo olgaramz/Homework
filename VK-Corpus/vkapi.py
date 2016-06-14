@@ -1,7 +1,7 @@
 import vk
 import time
 
-csvheader = 'id,sex,bdate\n'
+csvheader = 'id\tsex\tbdate\tlanguages\n'
 
 def getIDs(lst):
     allIDs = []
