@@ -15,12 +15,6 @@ strToMark = ''
 global initLength
 initLength = 0
 
-teststring = '他把放在膝上的两只手攥成了拳头'
-initLength = len(teststring)
-r = markup(teststring)
-print(r)
-
-
 def markup(strng):
     if strng in dictionary:
         annotation = dictionary[strng]        
