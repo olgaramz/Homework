@@ -6,8 +6,19 @@ ad = AlphabetDetector()
 global dictionary
 dictionary = {}
 global punct
-punct = ['，', '！', '。', '”', '：', '？', '“']
+punct = ['，', '！', '。', '”', '：', '？', '“', '……']
+global sent
+sent = ''
 lines = []
+global strToMark
+strToMark = ''
+global initLength
+initLength = 0
+
+teststring = '他把放在膝上的两只手攥成了拳头'
+initLength = len(teststring)
+r = markup(teststring)
+print(r)
 
 
 def markup(strng):
@@ -18,12 +29,18 @@ def markup(strng):
         english = annotation[1::2]
         english = '; '.join(english)
         markedstr = '<w><ana lex="' + strng + '" transcr=' + transcr + '" sem="' + english + '"/>' + strng + '</w>\n'
-        return markedstr
+        global sent        
+        sent += markedstr
+        length = len(strng)
+        tail = strToMark[length-1:]
+        result = []
+        result.append(tail, length)
+        return result
     else:
-        return None
+        newstrng = strng[:-1] #recursion error
+        return markup(newstrng) 
 
-
-
+    
 with open('cedict_ts.u8', 'r', encoding='utf-8') as dictText:
     for line in dictText:
         value = []
@@ -54,12 +71,24 @@ with open('stal.xml', 'r', encoding='utf-8') as text:
 for i in sentences:
     s = ad.is_cjk(i)
     if s == True:
-        global initLength
-        initLength = len(i)
-        m = markup(i)
-        
+        strToMark = ''
+        for j in i:
+            if j not in punct:
+                strToMark += j
+        initLength = len(strToMark)
+        sent = '<se>'
+        result = markup(strToMark)
+        length = result[1]
+        tail = result[0]
+        while initLength > 0:
+               newresult = markup(tail)
+               initlength = initLength - newresult[1]
+               tail = newresult[0]
+        sent += '</se>\n'
+        lines.append(sent)
     else:
-        lines.append(i)
+        st = '<se>' + i + '</se>\n'
+        lines.append(st)
 
 fullText = ''.join(lines)
 
