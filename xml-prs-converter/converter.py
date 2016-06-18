@@ -1,6 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jun 15 10:39:36 2016
+
+@author: Asus
+"""
 import lxml.html
 import sys
 import re
+
 
 def prstoxml(filename):
     xmltext = '<body>\n'
@@ -9,7 +16,6 @@ def prstoxml(filename):
         for line in text:
             columns = line.split('\t')
             listOfColumns.append(columns)
-
     del listOfColumns[1:10]
     listOfColumns.remove(listOfColumns[0])
     seen = set()
@@ -35,23 +41,24 @@ def prstoxml(filename):
             punctl = i[15]
             punctr = i[16]
             sentPos = i[17]
+            print(sentPos)
             if sentPos == 'bos':
                 currentstrng += '<se>\n'
             currentstrng += punctl
-            annotStrng = '<w>\n<ana lex="' + lem + '" morph="'  + '" gr="' + gram + flex + '" trans="' + transRu + '" />\n'
+            annotStrng = '<w>\n<ana lex="' + lem + '" morph="' + flex + '" gr="' + lex + gram + '" trans="' + trans + '" />\n'
             currentstrng += annotStrng            
             if nvars != '':        
                 variants = int(nvars)
                 if variants > 1:
                     tolookahead = listOfColumns[index:index+variants]
                     for j in tolookahead:
-                        transRu1 = j[10]
-                        lem1 = j[8]
-                        lex1 = j[11]
-                        indexword1 = j[5]
-                        flex1 = j[13]
-                        gram1 = j[12]
-                        annotStrng1 = '<ana lex="' + lem1 + '" morph="' + flex1 + '" gr="' + lex1 + gram1 + '" trans="' + transRu1 + '" />\n'
+                        trans1 = j[10]                        
+                        transRu1 = j[11]
+                        lem1 = j[9]
+                        lex1 = j[12]
+                        flex1 = j[14]
+                        gram1 = j[13]
+                        annotStrng1 = '<ana lex="' + lem1 + '" morph="' + flex1 + '" gr="' + lex1 + gram1 + '" trans="' + trans1 + '" />\n'
                         currentstrng += annotStrng1
                         seen.add(str(j))
             currentstrng += word
@@ -65,6 +72,7 @@ def prstoxml(filename):
     xmltext += '</body>'
     return xmltext
     
+
 filename = 'C:\\Users\\Asus\\Desktop\\Converter\\testprs.prs'
 m = prstoxml(filename)
 with open('xmlout1.xml', 'w', encoding='utf-8') as f:
