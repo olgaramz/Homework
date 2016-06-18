@@ -5,36 +5,38 @@ from alphabet_detector import AlphabetDetector
 ad = AlphabetDetector()
 global dictionary
 dictionary = {}
-global punct
+global text
+text = ''
 punct = ['，', '！', '。', '”', '：', '？', '“', '……']
 global sent
 sent = ''
-lines = []
-global strToMark
-strToMark = ''
-global initLength
-initLength = 0
 
-def markup(strng):
-    if strng in dictionary:
-        annotation = dictionary[strng]        
-        transcr = annotation[::2]
-        transcr = '; '.join(transcr)
-        english = annotation[1::2]
-        english = '; '.join(english)
-        markedstr = '<w><ana lex="' + strng + '" transcr=' + transcr + '" sem="' + english + '"/>' + strng + '</w>\n'
-        global sent        
-        sent += markedstr
-        length = len(strng)
-        tail = strToMark[length-1:]
-        result = []
-        result.append(tail, length)
-        return result
-    else:
-        newstrng = strng[:-1] #recursion error
-        return markup(newstrng) 
+def markdown(i):
+    state = 'exists'
+    ind = 1
+    while state == 'exists':
+        workstrng = i[:ind]
+        if workstrng in dictionary:
+            state = 'exists'
+            ind += 1
+        else:
+            state = 'none'
+    mark = workstrng[:-1]
+    markup = dictionary[mark]
+    transcr = markup[::2]
+    transcr = '; '.join(transcr)
+    english = markup[1::2]
+    english = '; '.join(english)
+    markedstr = '<w><ana lex="' + mark + '" transcr=' + transcr + '" sem="' + english + '"/>' + mark + '</w>\n'      
+    print(markedstr)            
+    global sent 
+    sent += markedstr
+    tail = i[len(workstrng):]
+    if tail == '':
+        return
+    print(tail)
+    markdown(tail)
 
-    
 with open('cedict_ts.u8', 'r', encoding='utf-8') as dictText:
     for line in dictText:
         value = []
@@ -56,35 +58,31 @@ with open('cedict_ts.u8', 'r', encoding='utf-8') as dictText:
                 dictionary[key].append(value[0])
                 dictionary[key].append(value[1])
     
-
-with open('stal.xml', 'r', encoding='utf-8') as text:
-    xml = text.read()
+with open('stal.xml', 'r', encoding='utf-8') as t:
+    xml = t.read()
     tree = lxml.html.fromstring(xml)
     sentences = tree.xpath('.//body/se/text()')
-    
+
+teststring = '他把放在膝上的两只手攥成了拳头'
+markdown(teststring)
+print(text)
+
 for i in sentences:
     s = ad.is_cjk(i)
+    sent = '<se>'
     if s == True:
-        strToMark = ''
-        for j in i:
-            if j not in punct:
-                strToMark += j
-        initLength = len(strToMark)
-        sent = '<se>'
-        result = markup(strToMark)
-        length = result[1]
-        tail = result[0]
-        while initLength > 0:
-               newresult = markup(tail)
-               initlength = initLength - newresult[1]
-               tail = newresult[0]
+        cleanstr = ''
+        for letter in i:
+            if letter not in punct:
+                cleanstr += letter
+            else:
+                pass
+        markdown(cleanstr)
         sent += '</se>\n'
-        lines.append(sent)
+        text += sent
     else:
-        st = '<se>' + i + '</se>\n'
-        lines.append(st)
-
-fullText = ''.join(lines)
-
-with open('chinese.xml', 'w', encoding = 'utf-8') as f:
-    f.write(fullText)
+        tagged = '<se lang="ru">' + i + '</se>\n'
+        text += tagged
+        
+with open('chineseprocessed.xml', 'w', encoding='utf-8') as f:
+    f.write(text)
