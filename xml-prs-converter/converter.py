@@ -1,12 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jun 15 10:39:36 2016
-
-@author: Asus
-"""
-import lxml.html
 import sys
 import re
+import argparse
 
 
 def prstoxml(filename):
@@ -70,10 +64,19 @@ def prstoxml(filename):
         else:
             pass
     xmltext += '</body>'
-    return xmltext
-    
+    return xmltext   
 
-filename = 'C:\\Users\\Asus\\Desktop\\Converter\\testprs.prs'
-m = prstoxml(filename)
-with open('xmlout1.xml', 'w', encoding='utf-8') as f:
-    f.write(m)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--input', required=True)
+parser.add_argument('-o', '--output', required=True)
+parser.add_argument('-p', '--prs')
+args = parser.parse_args()
+
+inputfile = args.i
+outputfile = args.o
+
+if args.prs:
+    m = prstoxml(inputfile)
+    with open(outputfile, 'w', encoding='utf-8') as f:
+        f.write(m)
