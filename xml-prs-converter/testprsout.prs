@@ -1,0 +1,17 @@
+#sentnum	#wordnum	#graphword	#numvar	#lex	#morph	#gram	#trans
+1	1	Уның	1	ун	ың	NUM,poss.2sg	десять
+1	1	Уның	2	ун	ың	SPRO,poss.2sg	он
+1	2	һүҙе	1	һүҙ	е	S,poss.3sg/pl	слово
+1	3	тере	1	тере	Ø	ADJ,nom,sg	живой
+2	1	Ул	1	ул	Ø	SPRO,nom,sg	он
+2	1	Ул	2	ул	Ø	S,nom,sg	сын
+2	2	вәғәҙә	1	вәғәҙә	Ø	S,nom,sg	обещание
+2	2	вәғәҙә	2	һүҙ	ҙәр	S,pl	слово
+2	3	йыш	1	йыш	Ø	ADJ,nom,sg	частый
+2	3	йыш	2	йыш	Ø	V,imp	строгать
+2	4	бирмәне	1	бир	мә,не	V,neg,pst.def	дать
+3	1	Һүҙһеҙ	1	һүҙ	һеҙ	S,abe	слово
+3	2	генә	1	генә		PART	
+3	3	торҙо	1	тор	ҙо	V,pst.def	стоять
+3	4	һүҙендә	1	һүҙ	ен,дә	S,poss.3sg,loc	слово
+3	4	һүҙендә	2	һүҙ	ендә	S,loc	слово
