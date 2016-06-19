@@ -1,0 +1,10 @@
+teststring = '他把放在膝上的两只手攥成了拳头'
+
+<w><ana lex="他" transcr=[ta1]" sem="he or him/(used for either sex when the sex is unknown or unimportant)/(used before sb's name for emphasis)/(used as a meaningless mock object)/other/another"/>他</w>
+<w><ana lex="放" transcr=[fang4]" sem="to put/to place/to release/to free/to let go/to let out/to set off (fireworks)"/>放</w>
+<w><ana lex="膝" transcr=[xi1]; [xi1]" sem="old variant of 膝[xi1]; knee"/>膝</w>
+<w><ana lex="的" transcr=[de5]; [di1]; [di2]; [di4]" sem="of/~'s (possessive particle)/(used after an attribute)/(used to form a nominal expression)/(used at the end of a declarative sentence for emphasis); see 的士[di1 shi4]; really and truly; aim/clear"/>的</w>
+<w><ana lex="只" transcr=[zhi3]; [zhi3]; [zhi3]; [zhi3]; [zhi1]" sem="only/merely/just/but; but/only; grain that has begun to ripen/variant of 衹|只[zhi3]; variant of 祇|只[zhi3]; classifier for birds and certain animals, one of a pair, some utensils, vessels etc"/>只</w>
+<w><ana lex="攥" transcr=[zuan4]" sem="to hold/to grip/to grasp"/>攥</w>
+<w><ana lex="了" transcr=[le5]; [liao3]; [liao3]; [liao4]" sem="(modal particle intensifying preceding clause)/(completed action marker); to finish/to achieve/variant of 瞭|了[liao3]/to understand clearly; (of eyes) bright/clear-sighted/to understand clearly; unofficial variant of 瞭[liao4]"/>了</w>
+<w><ana lex="头" transcr=[tou2]; [tou5]" sem="head/hair style/the top/end/beginning or end/a stub/remnant/chief/boss/side/aspect/first/leading/classifier for pigs or livestock/CL:個|个[ge4]; suffix for nouns"/>头</w>
