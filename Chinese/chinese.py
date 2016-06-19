@@ -27,15 +27,24 @@ def markdown(i):
     transcr = '; '.join(transcr)
     english = markup[1::2]
     english = '; '.join(english)
-    markedstr = '<w><ana lex="' + mark + '" transcr=' + transcr + '" sem="' + english + '"/>' + mark + '</w>\n'      
-    print(markedstr)            
+    markedstr = '<w><ana lex="' + mark + '" transcr=' + transcr + '" sem="' + english + '"/>' + mark + '</w>\n'                  
     global sent 
     sent += markedstr
     tail = i[len(workstrng):]
     if tail == '':
         return
-    print(tail)
-    markdown(tail)
+    elif len(tail) == 1:
+        markup = dictionary[tail]
+        transcr = markup[::2]
+        transcr = '; '.join(transcr)
+        english = markup[1::2]
+        english = '; '.join(english)
+        markedstr = '<w><ana lex="' + tail + '" transcr=' + transcr + '" sem="' + english + '"/>' + tail + '</w>\n'
+        sent += markedstr
+        return
+    else:
+        markdown(tail)
+        return
 
 with open('cedict_ts.u8', 'r', encoding='utf-8') as dictText:
     for line in dictText:
@@ -62,10 +71,6 @@ with open('stal.xml', 'r', encoding='utf-8') as t:
     xml = t.read()
     tree = lxml.html.fromstring(xml)
     sentences = tree.xpath('.//body/se/text()')
-
-teststring = '他把放在膝上的两只手攥成了拳头'
-markdown(teststring)
-print(text)
 
 for i in sentences:
     s = ad.is_cjk(i)
